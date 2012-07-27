@@ -32,8 +32,10 @@ How to use
 
 ### fx_selec code seamdple
 		
-		create array with parametars
-
+		
+		$baseApi = new Fenix_baseApi(); // create object
+		
+	  //create array
 		$arr_base = array(
 			'table' => 'test_base',
 			'select' => array(
@@ -43,7 +45,7 @@ How to use
 			'where' => ' text = "petar" or id = 1 ',
 			'order' => 'ASC'
 		);
-
+   $value = $baseApi -> fx_select( $arr_base ); // call function witch return array
 
 
 File user
