@@ -30,7 +30,7 @@ How to use
 - Connect on data base 
 - Create object like -> $baseApi = new Fenix_baseApi();
 
-1. fx_selec
+### fx_selec code seamdple
 		
 		create array with parametars
 
