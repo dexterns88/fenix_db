@@ -1,0 +1,305 @@
+<?php
+/*
+ * RedFenix dataBase core
+ * V: 1.0 Alpha
+ * Data relese: 28.7.2012.
+ * Dev: webpage-lab.com
+ **/
+include_once('db_handler.php');
+
+class Fenix_baseApi extends dbHandler {
+	
+// definition of databse option array
+	var	$arr_base = array();
+  //$this -> arr_base
+ 
+// function for select database 
+// =====================================================================================================================
+  function fx_select( $argument ) {
+		
+		dbHandler::setVar( $argument );
+		dbHandler::dbField();
+		
+		if(table_exists( $this -> arr_base['table'])) {
+			// defined select condition
+			if( isset ( $this -> arr_base['select'] ) and !empty( $this -> arr_base['select'] ) ) {
+				$selectCount = count( $this -> arr_base['select'] );
+				$i = 1;
+				$sqlSelect = "";
+				foreach( $this -> arr_base['select'] as $select ) {
+					if( $selectCount == $i ) {
+						$sqlSelect .= $select;
+					} else {
+						$sqlSelect .= $select . " , " ;
+					}
+					$i++;
+				}
+			} else {
+				$sqlSelect = " * ";
+			}
+			
+			// defined where condition
+			$sqlWhere = "";
+			if( isset ($this -> arr_base['where'] ) and !empty($this -> arr_base['where']) ) {
+				$sqlWhere = " WHERE ";
+				$sqlWhere .= $this -> arr_base['where'];
+			}
+				
+			$sqlOrder = "";
+			if ( isset ( $this -> arr_base['order'] ) and !empty( $this -> arr_base['order'] ) ) {
+				$sqlOrder = $this -> arr_base['order'];
+			}
+			//ORDER BY column_name(s) ASC|DESC 
+			
+			$sql = "
+				SELECT {$sqlSelect} FROM {$this -> arr_base['table']} {$sqlWhere} {$sqlOrder};
+			";
+			
+			
+			$query = mysql_query($sql);
+			$output = array();
+			
+			while( $rez = mysql_fetch_assoc($query) ) {
+				array_push( $output , $rez );
+			}
+			return $output;
+		} else {
+			printMsg( 'error' , 'Selected table doesn\'t exist' );
+			return false;
+		}
+  } // end fenix_select_list()
+  
+  
+// insert new data
+//============================================================================================================================
+
+  function fx_insert( $argument ) {
+		
+		dbHandler::setVar($argument);
+		dbHandler::dbField(); // if db exist;
+
+		
+		if(table_exists( $this -> arr_base['table'])) {
+			if( empty ( $this -> arr_base['table']) ) {
+				printMsg( 'error' , 'Database name required for function like: ' , '"table" => "table_name"' );
+				return false;
+			}
+		} else {
+			printMsg( 'error' , 'Selected database doesn\'t exist!' );
+			return false;
+		}
+		
+		if( empty( $this -> arr_base['value']) ) {
+			printMsg( 'error' , 'Database entry value required like: ' , '"value" => array( "row name" => "row value" , "row name2" => "row value2")' );
+			return false;
+		}
+		
+	// return base insert info
+		$rowNameTmp = "";
+		$rowValTmp = "";
+		foreach( $this -> arr_base['value'] as $rowName => $rowVal ) {
+			if( $rowNameTmp == "" )
+				$rowNameTmp .= $rowName;
+			else
+				$rowNameTmp .= " , {$rowName} ";
+			
+			if( $rowValTmp == "" )
+				$rowValTmp .= "'{$rowVal}'";
+			else
+				$rowValTmp .= " , '{$rowVal}'";
+				
+			$rowtnp = $rowName;
+		}
+		
+		$sql = "INSERT INTO {$this -> arr_base['table']} ( {$rowNameTmp}) VALUES({$rowValTmp});";
+		if( mysql_query($sql) )
+			return true;
+		else
+			return false;
+		
+  } // end fenix_create_enrty()
+  
+  
+// delete entry
+// ==============================================================================================================
+  function fx_delete( $argument ) {
+		
+		dbHandler::setVar( $argument );
+		dbHandler::dbField();
+		
+		
+		if( ! table_exists( $this -> arr_base['table'])) {
+			print('Database doesn\'t exist');
+			return false;
+		}
+		
+		
+		if(! isset( $this -> arr_base['where'] ) or empty($this -> arr_base['where']) ) {
+			$input = "Condition where are required for this proces like:";
+			$desc = " 'where' => array( 'column' => 'value', 'column2' => 'value2' ) ";
+			printMsg( 'error' , $input , $desc );
+			exit();
+		}
+		
+		
+		$tmpWhere = $this -> arr_base['where'];
+		
+		$sql = "DELETE FROM {$this -> arr_base['table']} WHERE {$tmpWhere}";
+		krumo($sql);
+		if( mysql_query($sql) )
+			return true;
+		else
+			return false;
+  }
+  
+  
+// update query ======================================================================================
+  function fx_update( $argument ) {
+		
+		dbHandler::setVar($argument);
+		dbHandler::dbField();
+		
+		
+		if( !isset( $this-> arr_base['where']) or empty( $this -> arr_base['where']) ) {
+			printMsg( 'error' , 'where required for this function');
+			return false;
+		}
+		
+		$setTemp = "";
+		foreach( $this -> arr_base['value'] as $rowName => $rowVal ) {
+			if( $setTemp == "" ) {
+				$setTemp = " {$rowName} = '{$rowVal}'";
+			} else {
+				$setTemp .= " , {$rowName} = '{$rowVal}'";
+			}
+		}
+		
+		
+		$sql = "UPDATE {$this -> arr_base['table']} 
+						SET $setTemp
+						WHERE {$this -> arr_base['where']} ;";
+		
+		if(mysql_query($sql)){
+			return true;
+		}else {
+			return false;
+		}
+	}
+  
+// create database table ===================================================================
+  function fx_createTable( $argument ) {
+		
+		dbHandler::setVar( $argument );
+		dbHandler::dbField();
+		
+		
+		if( table_exists( $this -> arr_base['table']) ) {
+			printMsg( 'warning' , 'Database alredy exist!!' );
+			return false;
+		}
+		
+		$tableType = "innodb";
+		if(isset ( $this -> arr_base['tableType'] ) ) {
+			$tableType = $this -> arr_base['tableType']; }
+		
+		$tableParametar = "";
+		$temparray = array();
+				
+		foreach( $this -> arr_base['value'] as $name => $par ) {
+			if( $tableParametar =="" )
+				$tableParametar .= " {$name} {$par} ";
+			else
+				$tableParametar .= " , {$name} {$par} ";
+			array_push( $temparray , $name );
+		}
+	
+// if id doesn exist create automatic in table
+		if ( ! in_array ( 'id' , $temparray ) ) {
+			$tableParametar .= " , id int NOT NULL AUTO_INCREMENT ";
+		}
+
+		if( isset( $this -> arr_base['primary'] ) ) {
+			$primkey = $this -> arr_base['primary'];
+			if( ! in_array ( $primkey , $temparray ) ) {
+				if( $primkey != 'id' ) {
+					printMsg( 'error' , 'Primary key value doesn\'t exist. ');
+					return false;
+				}
+			}
+		} else {
+			$primkey = 'id';
+		}
+		
+		
+		$sql = "
+			CREATE TABLE {$this -> arr_base['table']} (
+				{$tableParametar}
+				, PRIMARY KEY({$primkey})
+			) ENGINE = {$tableType}";
+			
+		if( mysql_query($sql) ) {
+			printMsg( 'status' , 'Database table successfully created.' );
+		} else {
+			printMsg( 'error' , 'Error in creating table ');
+		}
+	
+	} // end function
+	
+
+// fenix tablelist ===============================================================================
+	function fx_tableList( $argument ) {
+		
+		dbHandler::setVar($argument);
+		dbHandler::dbField();
+		
+		$sql = 'show tables';
+		$query = mysql_query($sql);
+		
+		$output = array();
+		while( $rez = mysql_fetch_assoc($query) ) {
+			array_push( $output , $rez );
+		}
+		return $output;
+		
+	} // fenix helper tableList
+	
+// drop table
+	function fx_drop( $argument ){
+		
+		dbHandler::setVar( $argument );
+		dbHandler::dbField();
+		
+		if( !table_exists ( $this -> arr_base['table']) ) {
+			printMsg( 'warning' , 'Database doesn\'t exist!!' );
+			return false;
+		}
+		
+		$sql = " DROP TABLE IF EXISTS {$this -> arr_base['table']}";
+		
+		if( mysql_query($sql) ){
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+// private function =================================================================
+
+	private function _fx_checkTable( $val ) {
+	
+		$sql = " SELECT {$val} FROM {$this -> arr_base['table']}";
+		$query = mysql_query($sql);
+		
+		if (!$query) {
+			die('There was a problem executing the query check the value');
+		}
+
+		$number_of_rows = mysql_num_rows($query);
+		if (!$number_of_rows > 0){
+			die('This value doesn\'t exist');
+		}
+	}
+	
+} // end of class
+?>
