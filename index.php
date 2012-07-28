@@ -2,6 +2,8 @@
 	include_once('krumo/class.krumo.php'); // krumo developer mode
 	include_once('ini_db.php');
 	
+	//~ header('Location: demo.html');
+	
 	// call db function
 	$db = new fenix_DbConect();
 	$db -> conect();

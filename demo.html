@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML+RDFa 1.1//EN">
+<html class="no-js" lang="en" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<!-- <link type="image/x-icon" href="favicon.png" rel="shortcut icon"> -->
+
+		<meta content="" name="description" />
+		<meta content="code sample , fenix_db fenix db , database" name="keywords" />
+		<meta name="author" content="webpage-lab" />
+		<link rel="stylesheet" type="text/css" href="style/style.css" >
+  </head>
+	<body>
+		<div id="page" class="region-page">
+			<div class="page-wrap">
+				<h1>Fenix Database function</h1>
+				
+				<h2>Code sample</h2>
+				
+				<p>Include library:</p>
+				<div class="code-div">
+						include_once('ini_db.php');
+				</div>
+				
+				<p> Next step is to create db object</p>
+				<div class="code-div">
+					$baseApi = new Fenix_baseApi();
+				</div>
+				<hr>
+				<h3>Select table and return value</h3>
+				<div class="code-div">
+					<ul>
+						<li>$arr_base = array (</li>
+						<ul>
+							<li>'table' => 'test_base',  	<span class="comment"> // name of table </span></li>
+							<li>'select' => array(   <span class="comment"> // select array of table row witch wont to select </span></li>
+							<ul>
+								<li>'id',</li>
+								<li>'text'</li>
+							</ul>
+							<li>),</li>
+							<li>'where' => 'text = "djuro" '  <span class="comment"> // where condition see manuel for database </span> </li>
+							<li>'order' => 'asc' <span class="comment"> // how to sory returned value </span> </li>
+						</ul>
+					<li>);</li>
+					</ul>
+				</div>
+				
+				<p> call function in object </p>
+				<div class="code-div">
+					$value = $baseApi -> fx_select( $arr_base );
+				</div>
+				
+				
+			</div>
+		</div> <!-- /page -->
+		
+		<div id="footer" class="region-footer">
+			
+		</div>
+	</body>
+
+</html>
