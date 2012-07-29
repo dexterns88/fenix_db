@@ -1,7 +1,7 @@
 [dexterns88 Fenix_db](http://www.webpage-lab.com)
 ===================
 
-Version: 1.0 Alpha
+Version: 1.1 Alpha
 
 Fenix_db is a grup of function for apstraction mysql database. You can use this library to easier manipulate with database. 
 
