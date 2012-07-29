@@ -1,7 +1,7 @@
 <?php
 /*
  * RedFenix dataBase core
- * V: 1.0 Alpha
+ * V: 1.1 Alpha
  * Data relese: 28.7.2012.
  * Dev: webpage-lab.com
  **/
@@ -247,10 +247,7 @@ class Fenix_baseApi extends dbHandler {
 	
 
 // fenix tablelist ===============================================================================
-	function fx_tableList( $argument ) {
-		
-		dbHandler::setVar($argument);
-		dbHandler::dbField();
+	function fx_tableList() {
 		
 		$sql = 'show tables';
 		$query = mysql_query($sql);

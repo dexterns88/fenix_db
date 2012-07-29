@@ -88,10 +88,7 @@ How to use
 	
 ### fx_tableList
 
-	$arr_base_list = array(
-		'table' => 'new_table'
-	);
-	$list = $baseApi -> fx_tableList( $arr_base_list ); 	//return array
+	$list = $baseApi -> fx_tableList(); 	//return array
 	
 	
 ### fx_update

@@ -71,10 +71,7 @@
 
 
 // list of table ================================================================================================
-	$arr_base_list = array(
-		'table' => 'new_table'
-	);
-	//~ $list = $baseApi -> fx_tableList( $arr_base_list );
+	//~ $list = $baseApi -> fx_tableList();
 	//~ krumo($list);
 
 

@@ -8,6 +8,9 @@
 		<meta content="code sample , fenix_db fenix db , database" name="keywords" />
 		<meta name="author" content="webpage-lab" />
 		<link rel="stylesheet" type="text/css" href="style/style.css" >
+		
+		<script src="js/jquery.js" type="text/javascript"></script>
+		<script src="js/script.js" type="text/javascript"></script>
   </head>
 	<body>
 		<div id="page" class="region-page">
@@ -26,7 +29,7 @@
 					$baseApi = new Fenix_baseApi();
 				</div>
 				<hr>
-				<h3>Select table and return value</h3>
+				<h3 id="select"><a name="select"></a>Select table and return value</h3>
 				<div class="code-div">
 					<ul>
 						<li>$arr_base = array (</li>
@@ -50,12 +53,138 @@
 					$value = $baseApi -> fx_select( $arr_base );
 				</div>
 				
+				<hr>
 				
+				<h3 id="insert"><a name="insert"></a>Insert value into table</h3>
+				
+				<div class="code-div">
+					<ul>
+						<li>$arr_base_insert = array(</li>
+						<ul>
+							<li>'table' => 'new_table4',</li>
+							<li>'value' => array(</li>
+							<ul>
+								<li>'FirstName' => 'dexter', <span class="comment">// FirstName is tablerow name where wont to insert 'dexter' text </span> </li>
+								<li>'LastName' => 'more test',</li>
+								<li>'Age' => '2'</li>
+							</ul>
+							<li>)</li>
+						</ul>
+						<li>);</li>
+					</ul>
+				</div>
+				
+				<p>Call function in object </p>
+				<div class="code-div">
+					$value2 = $baseApi -> fx_insert( $arr_base_insert );
+				</div>
+				
+				<hr>
+				
+				<h3 id="delete"><a name="delete"></a>Delete data from table</h3>
+				
+				<div class="code-div">
+					<ul>
+						<li>$arr_base_delete = array(</li>
+							<ul>
+								<li>'table' => 'test_base', <span class="comment">// name of table</span></li>
+								<li>'where' => ' id = 8 ' <span class="comment">// condition where like mysql where </span> </li>
+							</ul>
+						<li>);</li>
+					</ul>	
+					<br/>
+					$val3 = $baseApi -> fx_delete($arr_base_delete); <span class="comment">// call function into object</span>
+				</div>
+			<hr>
+			
+			<h3 id="create"><a name="create"></a>Create table into database</h3>
+			
+			<div class="code-div">
+				<ul>
+					<li>$arr_base_create_table = array(</li>
+					<ul>
+						<li>'table' => 'new_table4', <span class="comment">// name of new table</span></li>
+						<li>'tableType' => 'innodb', <span class="comment">// type of table </span></li>
+						<li>'value' => array(</li>
+						<ul>
+							<li>'id' => 'int NOT NULL AUTO_INCREMENT', <span class="comment">// if id not defined script automatic add this field</span></li>
+							<li>'FirstName' => 'varchar(15)', <span class="comment">// first name is name of row witch wont to sreate second is type and length</span></li>
+							<li>'LastName' => 'varchar(15)',</li>
+							<li>'Age' => 'int'</li>
+						</ul>
+						<li>),</li>
+						<li>'primary' => 'id' <span class="comment">// if primary key not defined id automatic becomes primary key</span></li>
+					</ul>
+					<li>);</li>
+				</ul>
+				<br />
+				$value3 = $baseApi -> fx_createTable($arr_base_create_table);
 			</div>
+				
+			<hr>
+			
+			<h3 id="listTable"><a name="listTable"></a>List of all table in db</h3>
+			
+			<div class="code-div">
+				$list = $baseApi -> fx_tableList();
+			</div>
+				
+			<hr>
+			
+			<h3 id="update"><a name="update"></a>Update value</h3>
+			
+			<div class="code-div">
+				<ul>
+					<li>$arr_base_update = array(</li>
+					<ul>
+						<li>'table' => 'new_table', <span class="comment">// table witch want to update</span></li>
+						<li>'value' => array(</li>
+						<ul>
+							<li>'FirstName' => 'sasa', <span class="comment">FirstName is name of table row sasa is a value for update</span></li>
+							<li>'LastName' => 'des'</li>
+						</ul>
+						<li>),</li>
+						<li>'where' => "id = 1 or age = 22" <span class="comment">// condition witch field to update</span></li>
+					</ul>
+					<li>);</li>
+				</ul>
+				<br />
+				$update = $baseApi -> fx_update( $arr_base_update );
+			</div>
+				
+			<h3 id="dropTable"><a name="dropTable"></a>Drop table</h3>
+			<div class="code-div">
+				<ul>
+					<li>$arr_base_drop = array(</li>
+					<ul>
+						<li>'table' => 'new_table1' <span class="comment">// table for drop</span></li>
+					</ul>
+					<li>);</li>
+				</ul>
+				<br/>
+				$drop = $baseApi -> fx_drop( $arr_base_drop );
+			</div>
+			
+			
+			
+			</div> <!-- /page-wrapper -->
 		</div> <!-- /page -->
 		
+		<div class="navigation">
+			<ul>
+				<li><a href="#select">Select table</a></li>
+				<li><a href="#insert">Insert value</a></li>
+				<li><a href="#delete">Delete data</a></li>
+				<li><a href="#create">Create table</a></li>
+				<li><a href="#listTable">List of all table</a></li>
+				<li><a href="#update">Update value</a></li>
+				<li><a class="last " href="#dropTable">Drop table</a></li>
+			</ul>
+		</div>
+		
 		<div id="footer" class="region-footer">
-			
+			<p class="cr">Copyright 2012 | All rights reserved</p>
+			<p class="pb">Powered by: <a target="_blank" href="http://www.webpage-lab.com">webpage-lab</a></p>
 		</div>
 	</body>
 

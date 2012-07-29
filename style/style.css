@@ -1,8 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Fredericka+the+Great|Average);
 html {
-	overflow-y: scroll;
+	
 }
 body {
-	height: 100%;
 	margin: 0;
 	background: #102c41;
 	background: -moz-linear-gradient(top,  #102c41 0%, #0a1c29 100%);
@@ -11,12 +11,19 @@ body {
 	background: -o-linear-gradient(top,  #102c41 0%, #0a1c29 100%);
 	background: linear-gradient(top,  #102c41 0%, #0a1c29 100%);
 	background-repeat: no-repeat;
+	
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	border-bottom: 1px dotted #57BFBD;
+	font-family: 'Fredericka the Great', cursive , Arial;
+}
+h2 , h3 {
+	font-family: 'Average', serif , Arial;
 }
 #page {
-	height: auto;
-  min-height: 100%;
   position: relative;
-  padding: 25px;
+  padding: 25px 155px 0;
 }
 
 .page-wrap {
@@ -54,4 +61,54 @@ hr {
 	border-left: 0;
 	border-right: 0;
 	border-bottom: 0;
+}
+
+#footer {
+	width: 960px;
+	margin: 0 auto;
+	color: #fff;
+}
+#footer a {
+	color: #fff;
+}
+#footer a:hover {
+	color: #CBEAEB;
+}
+#footer:after { 
+ clear: both; 
+ content: ""; 
+ display: block; 
+ height: 0; 
+ visibility: hidden; 
+}
+#footer .cr {
+	float: left;
+}
+#footer .pb {
+	float: right;
+}
+/* navigation */
+.navigation {
+	position: fixed;
+	top: 30px;
+}
+.navigation ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+	background-color: #fff;
+}
+.navigation ul li a {
+	padding: 5px 15px;
+	display: block;
+	border-bottom: 1px solid ;
+	color: #303030;
+	text-decoration: none;
+}
+.navigation ul li a.last {
+	border: none;
+}
+.navigation ul li a:hover {
+	background-color: #6494C8;
+	color: #fff;
 }
